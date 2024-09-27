@@ -10,8 +10,6 @@ import { createQueue, setupQueueProcessor } from './queue';
 const run = async () => {
   const Service_FlashLiveQueue = createQueue('[SERVICE]FlashLiveRequestQueue');
   const Server_FlashLiveQueue = createQueue('[SERVER]FlashLiveRequestQueue');
-  await setupQueueProcessor(Service_FlashLiveQueue.name);
-  await setupQueueProcessor(Server_FlashLiveQueue.name);
 
   const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     fastify();
