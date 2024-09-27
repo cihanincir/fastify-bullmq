@@ -8,7 +8,8 @@ import { env } from './env';
 import { createQueue, setupQueueProcessor } from './queue';
 
 const run = async () => {
-  const FlashLiveQueue = createQueue('FlashLiveRequestQueue');
+  const Service_FlashLiveQueue = createQueue('[SERVICE]FlashLiveRequestQueue');
+  const Server_FlashLiveQueue = createQueue('[SERVER]FlashLiveRequestQueue');
   await setupQueueProcessor(FlashLiveQueue.name);
 
   const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
@@ -16,7 +17,7 @@ const run = async () => {
 
   const serverAdapter = new FastifyAdapter();
   createBullBoard({
-    queues: [new BullMQAdapter(FlashLiveQueue)],
+    queues: [new BullMQAdapter(Service_FlashLiveQueue), new BullMQAdapter(Server_FlashLiveQueue)],
     serverAdapter,
   });
   serverAdapter.setBasePath('/');
